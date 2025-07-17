@@ -1,0 +1,11 @@
+{
+    "private": true,
+    "type": "module",
+    "dependencies": {
+        "@tailwindcss/cli": "^4.1.11",
+        "tailwindcss": "^4.1.11"
+    },
+    "scripts": {
+        "build": "npx @tailwindcss/cli -i ./resources/css/index.css -o ./resources/dist/filament-user-field.css --minify"
+    }
+}

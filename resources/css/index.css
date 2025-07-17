@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+.fi-user-entry {
+  @apply flex items-center;
+}
+.fi-user-entry.fi-size-xs {
+  @apply gap-2 p-1;
+}
+.fi-user-entry.fi-size-sm {
+  @apply gap-2.5 p-2.5;
+}
+.fi-user-entry.fi-size-md {
+  @apply gap-3.5 p-3.5;
+}
+.fi-user-entry.fi-size-lg {
+  @apply gap-4 p-4;
+}
+.fi-user-entry.fi-size-xl {
+  @apply gap-4 p-4;
+}
+
+.fi-user-entry-active-state {
+  @apply absolute top-[-6px] right-[-8px] bg-white dark:bg-gray-800 rounded-full;
+}
+.fi-user-entry-active-state.fi-size-xs svg {
+  @apply size-5;
+}
+.fi-user-entry-active-state.fi-size-sm svg {
+  @apply size-5;
+}
+.fi-user-entry-active-state.fi-size-md svg {
+  @apply size-6;
+}
+.fi-user-entry-active-state.fi-size-lg svg {
+  @apply size-6;
+}
+.fi-user-entry-active-state.fi-size-xl svg {
+  @apply size-7;
+}
+
+.fi-user-entry-avatar {
+  @apply rounded-full;
+}
+.fi-user-entry-avatar.fi-size-xs {
+  @apply size-9;
+}
+.fi-user-entry-avatar.fi-size-sm {
+  @apply size-10;
+}
+.fi-user-entry-avatar.fi-size-md {
+  @apply size-11;
+}
+.fi-user-entry-avatar.fi-size-lg {
+  @apply size-12;
+}
+.fi-user-entry-avatar.fi-size-xl {
+  @apply size-14;
+}
+
+.fi-user-entry-default-avatar {
+  @apply rounded-full bg-gray-200 text-gray-800 flex items-center justify-center dark:bg-gray-400 dark:text-white;
+}
+.fi-user-entry-default-avatar svg {
+  @apply max-w-full max-h-full;
+}
+
+.fi-user-entry-default-avatar.fi-size-xs {
+  @apply w-9 h-9;
+}
+.fi-user-entry-default-avatar.fi-size-xs svg {
+  @apply w-6 h-6;
+}
+.fi-user-entry-default-avatar.fi-size-sm {
+  @apply w-10 h-10;
+}
+.fi-user-entry-default-avatar.fi-size-sm svg {
+  @apply w-7 h-7;
+}
+.fi-user-entry-default-avatar.fi-size-md {
+  @apply w-11 h-11;
+}
+.fi-user-entry-default-avatar.fi-size-md svg {
+  @apply w-[1.875rem] h-[1.875rem]; /* 7.5 * 0.25rem */
+}
+.fi-user-entry-default-avatar.fi-size-lg {
+  @apply w-12 h-12;
+}
+.fi-user-entry-default-avatar.fi-size-lg svg {
+  @apply w-8 h-8;
+}
+.fi-user-entry-default-avatar.fi-size-xl {
+  @apply size-14;
+}
+.fi-user-entry-default-avatar.fi-size-xl svg {
+  @apply w-[2.125rem] h-[2.125rem]; /* 8.5 * 0.25rem */
+}
+
+.fi-user-entry-content {
+  @apply flex-grow;
+}
+
+.fi-user-entry-content-heading.fi-size-xs {
+  @apply text-xs;
+}
+.fi-user-entry-content-heading.fi-size-sm {
+  @apply text-sm;
+}
+.fi-user-entry-content-heading.fi-size-md {
+  @apply text-base;
+}
+.fi-user-entry-content-heading.fi-size-lg {
+  @apply text-lg;
+}
+.fi-user-entry-content-heading.fi-size-xl {
+  @apply text-xl;
+}
+
+.fi-user-entry-content-description {
+  @apply break-words text-gray-600 dark:text-gray-300;
+}
+.fi-user-entry-content-description.fi-size-xs {
+  @apply text-[0.625rem];
+}
+.fi-user-entry-content-description.fi-size-sm {
+  @apply text-xs;
+}
+.fi-user-entry-content-description.fi-size-md {
+  @apply text-sm;
+}
+.fi-user-entry-content-description.fi-size-lg {
+  @apply text-base;
+}
+.fi-user-entry-content-description.fi-size-xl {
+  @apply text-lg;
+}
