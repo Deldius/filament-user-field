@@ -22,7 +22,7 @@ class UserFieldServiceProvider extends PackageServiceProvider
          */
         $package->name(static::$name)
             ->hasViews(static::$viewNamespace)
-            ->hasConfigFile()
+            ->hasConfigFile('user-field')
             ->hasTranslations();
     }
 
