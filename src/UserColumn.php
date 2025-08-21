@@ -19,5 +19,5 @@ class UserColumn extends Column
     use HasState;
     use HasUserFields;
 
-    protected string $view = 'filament-user-field::user-entry';
+    protected string $view = 'filament-user-field::user-column';
 }

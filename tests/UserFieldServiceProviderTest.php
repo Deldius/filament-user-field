@@ -20,7 +20,8 @@ test('it can publish view file', function () {
     $this->artisan('vendor:publish --tag=filament-user-field-views')
         ->assertSuccessful();
 
-    $viewsPath = resource_path('views/vendor/filament-user-field/user-entry.blade.php');
+    $viewsPath = resource_path('views/vendor/filament-user-field');
 
-    $this->assertFileExists($viewsPath);
+    $this->assertFileExists($viewsPath . '/user-entry.blade.php');
+    $this->assertFileExists($viewsPath . '/user-column.blade.php');
 });
