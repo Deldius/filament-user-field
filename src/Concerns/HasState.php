@@ -2,6 +2,8 @@
 
 namespace Deldius\UserField\Concerns;
 
+use Illuminate\Support\Facades\Cache;
+
 trait HasState
 {
     public function getState(): mixed
@@ -18,7 +20,13 @@ trait HasState
         }
 
         if ($state) {
-            return $userModel::where($userModelId, $state)->first();
+            return Cache::remember(
+                $userModel . '_' . $state,
+                new \DateInterval('PT5S'), // 5 seconds
+                function () use ($userModel, $userModelId, $state) {
+                    return $userModel::where($userModelId, $state)->first();
+                }
+            );
         }
 
         return null;
