@@ -5,6 +5,7 @@ use Deldius\UserField\Concerns\HasState;
 class DummyUser
 {
     public $id;
+
     public static $queryCount = 0;
 
     public function __construct($id)
