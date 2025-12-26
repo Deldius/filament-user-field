@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Cache;
 
 trait HasState
 {
+    const CACHE_KEY_PREFIX = 'user_field_state_';
+
     public function getState(): mixed
     {
         $state = parent::getState();
@@ -21,7 +23,7 @@ trait HasState
 
         if ($state) {
             return Cache::remember(
-                $userModel . '_' . $state,
+                self::CACHE_KEY_PREFIX . $userModel . '_' . $state,
                 new \DateInterval('PT5S'), // 5 seconds
                 function () use ($userModel, $userModelId, $state) {
                     return $userModel::where($userModelId, $state)->first();
