@@ -58,6 +58,6 @@ trait HasAvatar
             return null;
         }
 
-        return (new ImageEntry('tmp'))->getImageUrl($state);
+        return ImageEntry::make('tmp')->getImageUrl($state);
     }
 }
