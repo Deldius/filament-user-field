@@ -22,7 +22,7 @@
 }
 
 .fi-user-entry-active-state {
-  @apply absolute top-[-6px] right-[-8px] bg-white dark:bg-gray-800 rounded-full;
+  @apply absolute -top-1.5 -right-2 bg-white dark:bg-gray-800 rounded-full;
 }
 .fi-user-entry-active-state.fi-size-xs svg {
   @apply size-5;
@@ -45,18 +45,23 @@
 }
 .fi-user-entry-avatar.fi-size-xs {
   @apply size-9;
+  @apply min-w-9;
 }
 .fi-user-entry-avatar.fi-size-sm {
   @apply size-10;
+  @apply min-w-10;
 }
 .fi-user-entry-avatar.fi-size-md {
   @apply size-11;
+  @apply min-w-11;
 }
 .fi-user-entry-avatar.fi-size-lg {
   @apply size-12;
+  @apply min-w-12;
 }
 .fi-user-entry-avatar.fi-size-xl {
   @apply size-14;
+  @apply min-w-14;
 }
 
 .fi-user-entry-default-avatar {
@@ -67,38 +72,48 @@
 }
 
 .fi-user-entry-default-avatar.fi-size-xs {
-  @apply w-9 h-9;
+  @apply size-9;
+  @apply min-w-9;
 }
 .fi-user-entry-default-avatar.fi-size-xs svg {
-  @apply w-6 h-6;
+  @apply size-6;
+  @apply min-w-6;
 }
 .fi-user-entry-default-avatar.fi-size-sm {
-  @apply w-10 h-10;
+  @apply size-10;
+  @apply min-w-10;
 }
 .fi-user-entry-default-avatar.fi-size-sm svg {
-  @apply w-7 h-7;
+  @apply size-7;
+  @apply min-w-7;
 }
 .fi-user-entry-default-avatar.fi-size-md {
-  @apply w-11 h-11;
+  @apply size-11;
+  @apply min-w-11;
 }
 .fi-user-entry-default-avatar.fi-size-md svg {
-  @apply w-[1.875rem] h-[1.875rem]; /* 7.5 * 0.25rem */
+  @apply size-7.5;
+  @apply min-w-7.5;
 }
 .fi-user-entry-default-avatar.fi-size-lg {
-  @apply w-12 h-12;
+  @apply size-12;
+  @apply min-w-12;
 }
 .fi-user-entry-default-avatar.fi-size-lg svg {
-  @apply w-8 h-8;
+  @apply size-8;
+  @apply min-w-8;
 }
 .fi-user-entry-default-avatar.fi-size-xl {
   @apply size-14;
+  @apply min-w-14;
 }
 .fi-user-entry-default-avatar.fi-size-xl svg {
-  @apply w-[2.125rem] h-[2.125rem]; /* 8.5 * 0.25rem */
+  @apply size-8.5;
+  @apply min-w-8.5;
 }
 
 .fi-user-entry-content {
-  @apply flex-grow;
+  @apply grow;
 }
 
 .fi-user-entry-content-heading.fi-size-xs {
@@ -118,7 +133,7 @@
 }
 
 .fi-user-entry-content-description {
-  @apply break-words text-gray-600 dark:text-gray-300;
+  @apply wrap-break-word text-gray-600 dark:text-gray-300;
 }
 .fi-user-entry-content-description.fi-size-xs {
   @apply text-[0.625rem];
