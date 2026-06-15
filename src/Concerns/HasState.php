@@ -22,13 +22,19 @@ trait HasState
         }
 
         if ($state) {
-            return Cache::remember(
-                self::CACHE_KEY_PREFIX . $userModel . '_' . $state,
-                new \DateInterval('PT5S'), // 5 seconds
-                function () use ($userModel, $userModelId, $state) {
-                    return $userModel::where($userModelId, $state)->first();
+            $data = Cache::remember(
+                key: self::CACHE_KEY_PREFIX . $userModel . '_' . $state,
+                ttl: new \DateInterval('PT5S'), // 5 seconds
+                callback: function () use ($userModel, $userModelId, $state) {
+                    return $userModel::where($userModelId, $state)->first()?->toArray();
                 }
             );
+
+            if ($data === null) {
+                return null;
+            }
+
+            return new $userModel($data);
         }
 
         return null;

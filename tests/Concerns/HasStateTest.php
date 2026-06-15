@@ -4,16 +4,16 @@ use Deldius\UserField\Concerns\HasState;
 
 class DummyUser
 {
-    public $id;
+    public ?int $id;
 
     public static $queryCount = 0;
 
-    public function __construct($id)
+    public function __construct(?array $attributes = [])
     {
-        $this->id = $id;
+        $this->id = $attributes['id'] ?? null;
     }
 
-    public static function where($field, $value)
+    public static function where(string $field, mixed $value)
     {
         self::$queryCount++;
         // Simulate Eloquent's where()->first()
@@ -22,7 +22,7 @@ class DummyUser
             {
                 public function first()
                 {
-                    return new DummyUser(123);
+                    return new DummyUser(['id' => 123]);
                 }
             };
         }
@@ -35,26 +35,31 @@ class DummyUser
             }
         };
     }
+
+    public function toArray()
+    {
+        return ['id' => $this->id];
+    }
 }
 
-class DummyParent
+class DummyBaseField
 {
-    protected $state;
+    protected int|string|DummyUser|null $state;
 
-    public function __construct($state = null)
-    {
-        $this->state = $state;
-    }
-
-    public function getState()
+    public function getState(): mixed
     {
         return $this->state;
     }
 }
 
-class DummyUserFieldWithState extends DummyParent
+class DummyUserFieldWithState extends DummyBaseField
 {
     use HasState;
+
+    public function __construct(int|string|DummyUser|null $state = null)
+    {
+        $this->state = $state;
+    }
 }
 
 beforeEach(function () {
@@ -64,7 +69,7 @@ beforeEach(function () {
 });
 
 it('returns model instance if state is already model', function () {
-    $user = new DummyUser(123);
+    $user = new DummyUser(['id' => 123]);
     $field = new DummyUserFieldWithState($user);
     expect($field->getState())->toBe($user);
 });
