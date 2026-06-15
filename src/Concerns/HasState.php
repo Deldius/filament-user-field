@@ -2,6 +2,7 @@
 
 namespace Deldius\UserField\Concerns;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 
 trait HasState
@@ -14,7 +15,7 @@ trait HasState
 
         /** @disregard P1009 */
         // @phpstan-ignore class.notFound
-        $userModel = config('user-field.user_model.class', \App\Models\User::class);
+        $userModel = config('user-field.user_model.class', User::class);
         $userModelId = config('user-field.user_model.fields.id', 'id');
 
         if ($state instanceof $userModel) {

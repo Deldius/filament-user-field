@@ -1,12 +1,14 @@
 <?php
 
+use App\Models\User;
+
 /**
  * @disregard P1009
  */
 return [
     'user_model' => [
         // @phpstan-ignore class.notFound
-        'class' => \App\Models\User::class, // Default user model
+        'class' => User::class, // Default user model
         'fields' => [
             'id' => 'id', // Default user model ID field
             'avatar_url' => 'avatar_url', // Default user model avatar field

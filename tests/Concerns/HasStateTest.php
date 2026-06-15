@@ -44,7 +44,7 @@ class DummyUser
 
 class DummyBaseField
 {
-    protected int|string|DummyUser|null $state;
+    protected int | string | DummyUser | null $state;
 
     public function getState(): mixed
     {
@@ -56,7 +56,7 @@ class DummyUserFieldWithState extends DummyBaseField
 {
     use HasState;
 
-    public function __construct(int|string|DummyUser|null $state = null)
+    public function __construct(int | string | DummyUser | null $state = null)
     {
         $this->state = $state;
     }
