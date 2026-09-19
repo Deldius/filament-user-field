@@ -13,6 +13,8 @@ trait HasStackedUsers
 
     protected bool | Closure | null $stackedModal = null;
 
+    protected string | Closure | null $stackedModalWidth = null;
+
     protected ?Action $stackedModalAction = null;
 
     public function stackedLimit(int | Closure | null $limit): static
@@ -70,6 +72,19 @@ trait HasStackedUsers
             ?? config('user-field.stacked.modal', false));
     }
 
+    public function stackedModalWidth(string | Closure | null $width): static
+    {
+        $this->stackedModalWidth = $width;
+
+        return $this;
+    }
+
+    public function getStackedModalWidth(): ?string
+    {
+        return $this->evaluate($this->stackedModalWidth)
+            ?? config('user-field.stacked.modal_width');
+    }
+
     public function getStackedModalAction(): ?Action
     {
         return $this->stackedModalAction;
@@ -83,6 +98,7 @@ trait HasStackedUsers
         return $this->getStackedUsers()
             ->values()
             ->map(fn (mixed $user, int $index): UserEntry => UserEntry::make("stacked-user-{$index}")
+                ->label('')
                 ->state($user)
                 ->showAvatar($this->showAvatar)
                 ->avatarUrl($this->avatarUrl)
@@ -99,6 +115,7 @@ trait HasStackedUsers
         return Action::make($this->getStackedModalActionName())
             ->modalHeading(fn (): string => (string) ($this->getLabel() ?: 'Users'))
             ->modalSubmitAction(false)
+            ->modalWidth(fn (): ?string => $this->getStackedModalWidth())
             ->schema(fn (Action $action): array => $this->getStackedModalEntriesForAction($action));
     }
 

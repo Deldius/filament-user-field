@@ -23,5 +23,6 @@ return [
     'stacked' => [
         'limit' => 5,
         'modal' => false,
+        'modal_width' => 'sm',
     ],
 ];

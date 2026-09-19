@@ -160,3 +160,7 @@
 .fi-user-entry-content-description.fi-size-xl {
   @apply text-lg;
 }
+
+.fi-user-stack {
+  @apply pl-2;
+}
