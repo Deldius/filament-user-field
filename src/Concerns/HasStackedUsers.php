@@ -98,7 +98,7 @@ trait HasStackedUsers
         return $this->getStackedUsers()
             ->values()
             ->map(fn (mixed $user, int $index): UserEntry => UserEntry::make("stacked-user-{$index}")
-                ->label('')
+                ->hiddenLabel()
                 ->state($user)
                 ->showAvatar($this->showAvatar)
                 ->avatarUrl($this->avatarUrl)
