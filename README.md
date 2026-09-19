@@ -6,8 +6,6 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/deldius/filament-user-field.svg?style=flat-square)](https://packagist.org/packages/deldius/filament-user-field)
 
 
-This is a plugin for Filament v4
-
 ## Screenshots
 
 ![Light theme](assets/example1.jpg)
@@ -53,7 +51,7 @@ return [
 ];
 ```
 
-## Usage
+## FilamentPHP Components
 
 ### UserColumn (for Filament Tables)
 
@@ -169,6 +167,11 @@ public static function configure(Schema $schema): Schema
 }
 ```
 
+### UserSelect (for Filament Form)
+_Planned feature: UserSelect support for Filament Form is in development and will be added in a future release._
+
+## Advance Usage
+
 ### State and relationship resolution
 
 When Filament provides an Eloquent model as the field state, the field uses that
@@ -188,9 +191,6 @@ avoids repeating the same database lookup while rendering fields and mitigates
 N+1 queries when the same user appears multiple times. Each unique uncached ID,
 including a missing ID, may still require its own query, so eager-load
 relationships whenever possible.
-
-### UserSelect (for Filament Form)
-_Planned feature: UserSelect support for Filament Form is in development and will be added in a future release._
 
 ## Testing
 
