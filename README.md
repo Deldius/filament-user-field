@@ -208,6 +208,10 @@ rendering. Items may be Eloquent models or scalar IDs; scalar IDs resolve
 through the configured User model. Unresolved items are skipped, while resolved
 items retain their source order and duplicates.
 
+![Stacked Field](assets/stacked_field.png)
+
+![Stacked Modal](assets/stacked_modal.png)
+
 ```php
 UserEntry::make('assignees')
     ->stackedLimit(5)
