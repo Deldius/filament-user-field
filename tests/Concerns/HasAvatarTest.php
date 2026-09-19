@@ -21,9 +21,15 @@ class DummyUserFieldWithAvatar
     }
 
     // Simulate Filament's evaluate method
-    protected function evaluate($value)
+    protected function evaluate($value, array $namedInjections = [])
     {
-        return $value instanceof Closure ? $value() : $value;
+        if (! $value instanceof Closure) {
+            return $value;
+        }
+
+        $parameter = (new ReflectionFunction($value))->getParameters()[0] ?? null;
+
+        return $parameter ? $value($namedInjections[$parameter->getName()] ?? null) : $value();
     }
 
     // Override getImageUrl for test
@@ -50,6 +56,35 @@ it('can set and get avatarUrl directly', function () {
     $field->avatarUrl(fn () => 'closure_avatar');
     expect($field->getAvatarUrl())->toBe('closure_avatar');
 });
+
+it('resolves an avatar callback for a specific stacked user', function () {
+    $first = (object) ['avatar' => 'first.png'];
+    $second = (object) ['avatar' => 'second.png'];
+    $field = new DummyUserFieldWithAvatar(collect([$first, $second]));
+
+    $field->avatarUrl(fn ($user) => $user->avatar);
+
+    expect($field->getAvatarUrlFor($second))->toContain('second.png');
+});
+
+it('returns null from the single-user avatar accessor for collection state', function () {
+    $field = new DummyUserFieldWithAvatar(collect([(object) ['avatar' => 'first.png']]));
+    $field->avatarUrl(fn ($state) => $state->avatar);
+
+    expect($field->getAvatarUrl())->toBeNull();
+});
+
+it('injects the stacked user into avatar callbacks by parameter name', function (string $parameter) {
+    $user = (object) ['avatar' => 'named.png'];
+    $field = new DummyUserFieldWithAvatar(collect([$user]));
+
+    $field->avatarUrl(match ($parameter) {
+        'state' => fn ($state) => $state->avatar,
+        'user' => fn ($user) => $user->avatar,
+    });
+
+    expect($field->getAvatarUrlFor($user))->toBe('url_for_named.png');
+})->with(['state', 'user']);
 
 it('falls back to ContractsHasAvatar', function () {
     $user = new class implements ContractsHasAvatar

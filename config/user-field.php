@@ -20,4 +20,8 @@ return [
         'show' => false, // Show active state by default
         'field' => 'is_active', // Default field for active state
     ],
+    'stacked' => [
+        'limit' => 5,
+        'modal' => false,
+    ],
 ];

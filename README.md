@@ -5,6 +5,11 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/deldius/filament-user-field/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/deldius/filament-user-field/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/deldius/filament-user-field.svg?style=flat-square)](https://packagist.org/packages/deldius/filament-user-field)
 
+[![Plumb score](https://plumbphp.dev/badges/deldius/filament-user-field/composite.svg)](https://plumbphp.dev/deldius/filament-user-field)
+[![Plumb security score](https://plumbphp.dev/badges/deldius/filament-user-field/security.svg)](https://plumbphp.dev/deldius/filament-user-field)
+[![Plumb maintenance score](https://plumbphp.dev/badges/deldius/filament-user-field/maintenance.svg)](https://plumbphp.dev/deldius/filament-user-field)
+[![Plumb ecosystem score](https://plumbphp.dev/badges/deldius/filament-user-field/ecosystem.svg)](https://plumbphp.dev/deldius/filament-user-field)
+[![Scanned by Plumb](https://plumbphp.dev/badges/deldius/filament-user-field/scanned.svg)](https://plumbphp.dev/deldius/filament-user-field)
 
 ## Screenshots
 
@@ -47,6 +52,10 @@ return [
     'active_state' => [
         'show' => false, // Show active state by default
         'field' => 'is_active', // Default field for active state
+    ],
+    'stacked' => [
+        'limit' => 5,
+        'modal' => false,
     ],
 ];
 ```
@@ -191,6 +200,31 @@ avoids repeating the same database lookup while rendering fields and mitigates
 N+1 queries when the same user appears multiple times. Each unique uncached ID,
 including a missing ID, may still require its own query, so eager-load
 relationships whenever possible.
+
+### Multiple users
+
+Arrays and Laravel or Eloquent collections automatically trigger avatar-stack
+rendering. Items may be Eloquent models or scalar IDs; scalar IDs resolve
+through the configured User model. Unresolved items are skipped, while resolved
+items retain their source order and duplicates.
+
+```php
+UserEntry::make('assignees')
+    ->stackedLimit(5)
+    ->stackedModal();
+
+UserColumn::make('reviewers')
+    ->stackedLimit(8);
+```
+
+`stackedLimit()` controls the number of visible avatars and defaults to the
+global value of `5`. `stackedModal()` is opt-in, is disabled globally by
+default, and opens a read-only modal that lists every resolved user as a full
+`UserEntry` card.
+
+Prefer eager-loaded model relationships to avoid per-ID queries. When scalar
+IDs are used, successful lookups retain the five-second cache behavior, but
+each unique uncached ID may still require a query.
 
 ## Testing
 

@@ -5,6 +5,7 @@ namespace Deldius\UserField\Concerns;
 use Closure;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Models\Contracts\HasAvatar as ContractsHasAvatar;
+use Illuminate\Support\Collection;
 
 trait HasAvatar
 {
@@ -33,11 +34,25 @@ trait HasAvatar
 
     public function getAvatarUrl(): ?string
     {
+        if ($this->getState() instanceof Collection) {
+            return null;
+        }
+
         if ($this->avatarUrl) {
             return $this->evaluate($this->avatarUrl);
         }
 
-        $user = $this->getState();
+        return $this->getAvatarUrlFor($this->getState());
+    }
+
+    public function getAvatarUrlFor(mixed $user): ?string
+    {
+        if ($this->avatarUrl) {
+            return $this->getImageUrl($this->evaluate($this->avatarUrl, [
+                'state' => $user,
+                'user' => $user,
+            ]));
+        }
 
         // Check if User implements HasAvatar
         if (
