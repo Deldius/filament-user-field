@@ -3,6 +3,7 @@
 .phpunit.result.cache
 .phpunit.cache
 .vscode
+.worktrees
 build
 composer.lock
 coverage
