@@ -1,6 +1,12 @@
 <?php
 
 use Deldius\UserField\Concerns\HasState;
+use Illuminate\Database\Eloquent\Model;
+
+class DummyPolymorphicUser extends Model
+{
+    protected $guarded = [];
+}
 
 class DummyUser
 {
@@ -44,7 +50,7 @@ class DummyUser
 
 class DummyBaseField
 {
-    protected int | string | DummyUser | null $state;
+    protected int | string | DummyUser | Model | null $state;
 
     public function getState(): mixed
     {
@@ -56,7 +62,7 @@ class DummyUserFieldWithState extends DummyBaseField
 {
     use HasState;
 
-    public function __construct(int | string | DummyUser | null $state = null)
+    public function __construct(int | string | DummyUser | Model | null $state = null)
     {
         $this->state = $state;
     }
@@ -71,6 +77,13 @@ beforeEach(function () {
 it('returns model instance if state is already model', function () {
     $user = new DummyUser(['id' => 123]);
     $field = new DummyUserFieldWithState($user);
+    expect($field->getState())->toBe($user);
+});
+
+it('returns the concrete model from a polymorphic relationship', function () {
+    $user = new DummyPolymorphicUser(['id' => 456]);
+    $field = new DummyUserFieldWithState($user);
+
     expect($field->getState())->toBe($user);
 });
 

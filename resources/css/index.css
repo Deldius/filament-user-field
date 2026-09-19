@@ -4,6 +4,7 @@
 
 .fi-user-entry {
   @apply flex items-center;
+  @apply p-0!;
 }
 .fi-user-entry.fi-size-xs {
   @apply gap-2 p-1;

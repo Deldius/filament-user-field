@@ -169,6 +169,26 @@ public static function configure(Schema $schema): Schema
 }
 ```
 
+### State and relationship resolution
+
+When Filament provides an Eloquent model as the field state, the field uses that
+concrete model directly. This supports regular and polymorphic relationships,
+including morph targets whose class differs from the configured User model.
+
+```php
+UserColumn::make('actor') // `actor` may be a polymorphic relationship
+```
+
+When the state is only a scalar ID, the relationship type cannot be inferred.
+The field resolves that ID using `user-field.user_model.class` and
+`user-field.user_model.fields.id` from the package configuration.
+
+Successful scalar lookups are cached for five seconds per model and ID. This
+avoids repeating the same database lookup while rendering fields and mitigates
+N+1 queries when the same user appears multiple times. Each unique uncached ID,
+including a missing ID, may still require its own query, so eager-load
+relationships whenever possible.
+
 ### UserSelect (for Filament Form)
 _Planned feature: UserSelect support for Filament Form is in development and will be added in a future release._
 

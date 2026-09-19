@@ -3,6 +3,7 @@
 namespace Deldius\UserField\Concerns;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
 trait HasState
@@ -18,7 +19,7 @@ trait HasState
         $userModel = config('user-field.user_model.class', User::class);
         $userModelId = config('user-field.user_model.fields.id', 'id');
 
-        if ($state instanceof $userModel) {
+        if (($state instanceof Model) || ($state instanceof $userModel)) {
             return $state;
         }
 
