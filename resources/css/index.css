@@ -164,3 +164,13 @@
 .fi-user-stack {
   @apply pl-2;
 }
+
+.fi-user-select-option { @apply flex min-w-0 items-center gap-2 text-start; }
+.fi-user-select-option-avatar,
+.fi-user-select-option-fallback { @apply size-8 shrink-0 rounded-full; }
+.fi-user-select-option-avatar { @apply object-cover; }
+.fi-user-select-option-fallback { @apply flex items-center justify-center bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-300; }
+.fi-user-select-option-fallback svg { @apply size-5; }
+.fi-user-select-option-content { @apply flex min-w-0 flex-col; }
+.fi-user-select-option-heading { @apply truncate font-medium; }
+.fi-user-select-option-description { @apply truncate text-xs text-gray-500 dark:text-gray-400; }

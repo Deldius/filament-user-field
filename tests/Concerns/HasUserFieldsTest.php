@@ -63,7 +63,7 @@ it('can set and get heading directly', function () {
 
     $htmlable = new DummyHtmlable('Htmlable Heading');
     $field->heading($htmlable);
-    expect($field->getHeading())->toBe('Htmlable Heading');
+    expect($field->getHeading())->toBe($htmlable);
 });
 
 it('can set and get description directly', function () {
@@ -76,7 +76,7 @@ it('can set and get description directly', function () {
 
     $htmlable = new DummyHtmlable('Htmlable Description');
     $field->description($htmlable);
-    expect($field->getDescription())->toBe('Htmlable Description');
+    expect($field->getDescription())->toBe($htmlable);
 });
 
 it('falls back to user model heading field from config', function () {
@@ -113,4 +113,14 @@ it('resolves custom heading and description closures for a specific user', funct
 
     expect($field->getHeadingFor($user))->toBe('User Ada')
         ->and($field->getDescriptionFor($user))->toBe('Email ada@example.com');
+});
+
+it('injects a specific user as record and preserves htmlable values', function () {
+    $user = (object) ['name' => 'Ada'];
+    $field = (new DummyUserFieldWithUserFields)
+        ->heading(fn ($record) => new DummyHtmlable("<strong>{$record->name}</strong>"))
+        ->description(new DummyHtmlable('<em>Engineer</em>'));
+
+    expect($field->getHeadingFor($user))->toBeInstanceOf(Htmlable::class)
+        ->and($field->getDescriptionFor($user))->toBeInstanceOf(Htmlable::class);
 });

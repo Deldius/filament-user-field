@@ -27,9 +27,15 @@ class DummyUserFieldWithAvatar
             return $value;
         }
 
-        $parameter = (new ReflectionFunction($value))->getParameters()[0] ?? null;
+        $arguments = [];
 
-        return $parameter ? $value($namedInjections[$parameter->getName()] ?? null) : $value();
+        foreach ((new ReflectionFunction($value))->getParameters() as $parameter) {
+            if (array_key_exists($parameter->getName(), $namedInjections)) {
+                $arguments[$parameter->getName()] = $namedInjections[$parameter->getName()];
+            }
+        }
+
+        return $value(...$arguments);
     }
 
     // Override getImageUrl for test
@@ -65,6 +71,14 @@ it('resolves an avatar callback for a specific stacked user', function () {
     $field->avatarUrl(fn ($user) => $user->avatar);
 
     expect($field->getAvatarUrlFor($second))->toContain('second.png');
+});
+
+it('injects a specific user as record into avatar callbacks', function () {
+    $user = (object) ['avatar_url' => 'record.png'];
+    $field = (new DummyUserFieldWithAvatar)
+        ->avatarUrl(fn ($record): string => $record->avatar_url);
+
+    expect($field->getAvatarUrlFor($user))->toContain('record.png');
 });
 
 it('returns null from the single-user avatar accessor for collection state', function () {

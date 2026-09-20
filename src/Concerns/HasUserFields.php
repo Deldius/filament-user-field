@@ -25,17 +25,18 @@ trait HasUserFields
         return $this;
     }
 
-    public function getHeading(): string
+    public function getHeading(): string | Htmlable
     {
         return $this->getHeadingFor($this->getState());
     }
 
-    public function getHeadingFor(mixed $user): string
+    public function getHeadingFor(mixed $user): string | Htmlable
     {
         if ($this->heading) {
             return $this->evaluate($this->heading, [
                 'state' => $user,
                 'user' => $user,
+                'record' => $user,
             ]);
         }
 
@@ -44,17 +45,18 @@ trait HasUserFields
         return $user->{$headingField} ?? '';
     }
 
-    public function getDescription(): string
+    public function getDescription(): string | Htmlable
     {
         return $this->getDescriptionFor($this->getState());
     }
 
-    public function getDescriptionFor(mixed $user): string
+    public function getDescriptionFor(mixed $user): string | Htmlable
     {
         if ($this->description) {
             return $this->evaluate($this->description, [
                 'state' => $user,
                 'user' => $user,
+                'record' => $user,
             ]);
         }
 

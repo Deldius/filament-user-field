@@ -51,6 +51,7 @@ trait HasAvatar
             return $this->getImageUrl($this->evaluate($this->avatarUrl, [
                 'state' => $user,
                 'user' => $user,
+                'record' => $user,
             ]));
         }
 

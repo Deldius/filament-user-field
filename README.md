@@ -175,7 +175,47 @@ public static function configure(Schema $schema): Schema
 ```
 
 ### UserSelect (for Filament Form)
-_Planned feature: UserSelect support for Filament Form is in development and will be added in a future release._
+
+`UserSelect` queries the configured user model and searches asynchronously by
+default. A single-select field stores one configured user ID; multiple mode
+stores an array of configured user IDs.
+
+```php
+use Deldius\UserField\UserSelect;
+use Illuminate\Database\Eloquent\Builder;
+
+UserSelect::make('user_id');
+
+UserSelect::make('assignee_ids')
+    ->multiple();
+
+UserSelect::make('user_id')
+    ->preload();
+
+UserSelect::make('user_id')
+    ->avatarUrl(fn ($user) => $user->profile_photo_url)
+    ->heading(fn ($user) => $user->full_name)
+    ->description(fn ($user) => $user->email)
+    ->modifyQueryUsing(fn (Builder $query) => $query->where('is_active', true));
+```
+
+`preload()` is opt-in because it loads the initial option set instead of waiting
+for a search. `modifyQueryUsing()` customizes queries made directly against the
+configured user model, including search, preload, and selected-value queries.
+
+Relationship mode delegates querying and persistence to Filament. Its query
+callback is the `modifyQueryUsing` argument of `relationship()`; the
+configured-model `modifyQueryUsing()` method does not affect relationship
+queries.
+
+```php
+UserSelect::make('reviewers')
+    ->multiple()
+    ->relationship(
+        'reviewers',
+        modifyQueryUsing: fn (Builder $query) => $query->where('is_active', true),
+    );
+```
 
 ## Advance Usage
 
