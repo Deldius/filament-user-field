@@ -32,21 +32,22 @@ it('renders visible users and a remaining count for stacked state', function () 
         ->not->toContain('third.png');
 });
 
-it('shows user details and only hidden headings in stack tooltips without a modal', function () {
+it('shows details for visible and hidden users in stack tooltips without a modal', function () {
     $first = (object) ['name' => 'First User', 'description' => 'First Description', 'avatar_url' => 'first.png'];
     $second = (object) ['name' => 'Second User', 'description' => 'Second Description', 'avatar_url' => 'second.png'];
     $third = (object) ['name' => 'Hidden User', 'description' => 'Hidden Description', 'avatar_url' => 'hidden.png'];
+    $fourth = (object) ['name' => 'Hidden Without Description', 'description' => '', 'avatar_url' => 'hidden-empty.png'];
 
     $html = view('filament-user-field::user-column', [
-        'getState' => fn () => collect([$first, $second, $third]),
+        'getState' => fn () => collect([$first, $second, $third, $fourth]),
         'getSize' => fn () => 'sm',
         'getStackedModalAction' => fn () => null,
         'getAction' => fn () => null,
         'getLabel' => fn () => 'Users',
         'isStackedState' => fn () => true,
         'getVisibleStackedUsers' => fn () => collect([$first, $second]),
-        'getHiddenStackedUsers' => fn () => collect([$third]),
-        'getStackedRemainingCount' => fn () => 1,
+        'getHiddenStackedUsers' => fn () => collect([$third, $fourth]),
+        'getStackedRemainingCount' => fn () => 2,
         'hasStackedModal' => fn () => false,
         'getAvatarUrlFor' => fn ($user) => $user->avatar_url,
         'getHeadingFor' => fn ($user) => $user->name,
@@ -58,10 +59,10 @@ it('shows user details and only hidden headings in stack tooltips without a moda
 
     preg_match('/<span\s+class="fi-user-stack-remaining[^>]+>/', $html, $remainingTag);
 
-    expect($html)->toContain('x-tooltip.html', 'First User', 'First Description', 'Second User', 'Second Description', 'Hidden User')
-        ->not->toContain('Hidden Description')
-        ->and($remainingTag[0])->toContain('Hidden User')
-        ->not->toContain('First User', 'Second User');
+    expect($html)->toContain('x-tooltip.html', 'First User', 'First Description', 'Second User', 'Second Description')
+        ->and($remainingTag[0])->toContain('Hidden User', 'Hidden Description', 'Hidden Without Description', 'interactive: true', 'appendTo: () =&gt; document.body', 'tabindex="0"')
+        ->not->toContain('First User', 'Second User')
+        ->and(substr_count($remainingTag[0], 'fi-user-stack-tooltip-description'))->toBe(1);
 });
 
 it('does not render stack tooltips when the modal is enabled', function () {
@@ -96,13 +97,16 @@ it('escapes user content in stack tooltips', function () {
         'description' => '<img src=x onerror=alert("description")>',
     ])->render();
     $remainingTooltip = view('filament-user-field::components.user-stack-tooltip', [
-        'headings' => collect(['<script>alert("hidden")</script>']),
+        'users' => collect([[
+            'heading' => '<script>alert("hidden heading")</script>',
+            'description' => '<img src=x onerror=alert("hidden description")>',
+        ]]),
     ])->render();
 
     expect($userTooltip)->toContain('&lt;script&gt;', '&lt;img src=x onerror=alert(&quot;description&quot;)&gt;')
         ->not->toContain('<script>', '<img')
-        ->and($remainingTooltip)->toContain('&lt;script&gt;')
-        ->not->toContain('<script>');
+        ->and($remainingTooltip)->toContain('&lt;script&gt;', '&lt;img src=x onerror=alert(&quot;hidden description&quot;)&gt;')
+        ->not->toContain('<script>', '<img');
 });
 
 it('renders the empty state for an empty stacked collection', function () {

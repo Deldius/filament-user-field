@@ -5,16 +5,14 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/deldius/filament-user-field/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/deldius/filament-user-field/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/deldius/filament-user-field.svg?style=flat-square)](https://packagist.org/packages/deldius/filament-user-field)
 
-[![Plumb score](https://plumbphp.dev/badges/deldius/filament-user-field/composite.svg)](https://plumbphp.dev/deldius/filament-user-field)
-[![Plumb security score](https://plumbphp.dev/badges/deldius/filament-user-field/security.svg)](https://plumbphp.dev/deldius/filament-user-field)
-[![Plumb maintenance score](https://plumbphp.dev/badges/deldius/filament-user-field/maintenance.svg)](https://plumbphp.dev/deldius/filament-user-field)
-[![Plumb ecosystem score](https://plumbphp.dev/badges/deldius/filament-user-field/ecosystem.svg)](https://plumbphp.dev/deldius/filament-user-field)
-[![Scanned by Plumb](https://plumbphp.dev/badges/deldius/filament-user-field/scanned.svg)](https://plumbphp.dev/deldius/filament-user-field)
 
-## Screenshots
-
+### Single
 ![Light theme](assets/example1.jpg)
 ![Dark theme](assets/example2.jpg)
+
+### Stacked
+![Stacked Field](assets/stacked_field.png)
+![Stacked Tooltip](assets/stacked_tooltip.png)
 
 ## Installation
 
@@ -209,6 +207,7 @@ through the configured User model. Unresolved items are skipped, while resolved
 items retain their source order and duplicates.
 
 ![Stacked Field](assets/stacked_field.png)
+![Stacked Tooltip](assets/stacked_tooltip.png)
 
 ![Stacked Modal](assets/stacked_modal.png)
 
@@ -226,7 +225,7 @@ global value of `3. `stackedModal()` is opt-in, is enabled globally by
 default, and opens a read-only modal that lists every resolved user as a full
 `UserEntry` card. When the modal is disabled, hovering a visible avatar shows
 that user's heading and description. Hovering the `+N` badge shows the
-headings of the hidden users represented by the badge.
+headings and descriptions of the hidden users represented by the badge.
 
 Prefer eager-loaded model relationships to avoid per-ID queries. When scalar
 IDs are used, successful lookups retain the five-second cache behavior, but

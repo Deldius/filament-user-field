@@ -1,7 +1,12 @@
-@isset($headings)
+@isset($users)
   <ul class="fi-user-stack-tooltip-list">
-    @foreach ($headings as $heading)
-      <li>{{ $heading }}</li>
+    @foreach ($users as $user)
+      <li>
+        <div class="fi-user-stack-tooltip-heading">{{ $user['heading'] }}</div>
+        @if (filled($user['description']))
+          <div class="fi-user-stack-tooltip-description">{{ $user['description'] }}</div>
+        @endif
+      </li>
     @endforeach
   </ul>
 @else

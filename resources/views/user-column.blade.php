@@ -40,14 +40,18 @@ $isStackedModalAction = $stackedModalAction && ($getAction() === $stackedModalAc
       @if ($remaining = $getStackedRemainingCount())
         @php
           $remainingTooltip = $stackedModalEnabled ? null : view('filament-user-field::components.user-stack-tooltip', [
-              'headings' => $getHiddenStackedUsers()->map(fn ($user) => $getHeadingFor($user)),
+              'users' => $getHiddenStackedUsers()->map(fn ($user) => [
+                  'heading' => $getHeadingFor($user),
+                  'description' => $getDescriptionFor($user),
+              ]),
           ])->render();
         @endphp
 
         <span
           class="fi-user-stack-remaining fi-size-{{ $size }}"
           @if ($remainingTooltip)
-            x-tooltip.html="{ content: @js($remainingTooltip), theme: $store.theme }"
+            tabindex="0"
+            x-tooltip.html="{ content: @js($remainingTooltip), theme: $store.theme, interactive: true, appendTo: () =&gt; document.body }"
           @endif
         >+{{ $remaining }}</span>
       @endif
