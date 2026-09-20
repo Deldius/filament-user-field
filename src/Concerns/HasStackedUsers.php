@@ -5,6 +5,7 @@ namespace Deldius\UserField\Concerns;
 use Closure;
 use Deldius\UserField\UserEntry;
 use Filament\Actions\Action;
+use Filament\Schemas\Schema;
 use Illuminate\Support\Collection;
 
 /**
@@ -124,8 +125,9 @@ trait HasStackedUsers
             ->modalHeading(fn (): string => (string) ($this->getLabel() ?: 'Users'))
             ->modalSubmitAction(false)
             ->modalWidth(fn (): ?string => $this->getStackedModalWidth())
-            ->extraModalWindowAttributes(['gap' => 0])
-            ->schema(fn (Action $action): array => $this->getStackedModalEntriesForAction($action));
+            ->schema(fn (Action $action, Schema $schema): Schema => $schema
+                ->components($this->getStackedModalEntriesForAction($action))
+                ->dense());
     }
 
     /**

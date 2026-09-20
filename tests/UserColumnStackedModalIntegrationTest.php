@@ -48,6 +48,15 @@ it('builds the modal entries from the clicked non-final row', function () {
         ->and($entries[1]->getState()->name)->toBe('Second Reviewer');
 });
 
+it('uses compact spacing between stacked modal entries', function () {
+    $record = StackedTableRecord::query()->findOrFail(1);
+
+    $component = Livewire::test(StackedUsersTable::class)
+        ->mountTableAction('viewStackedUsers-reviewers', $record);
+
+    expect($component->instance()->getSchema('mountedActionSchema0')?->isDense())->toBeTrue();
+});
+
 it('registers distinct actions for two stacked columns', function () {
     $record = StackedTableRecord::query()->findOrFail(1);
 
