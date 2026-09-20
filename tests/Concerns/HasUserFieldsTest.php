@@ -20,9 +20,21 @@ class DummyUserFieldWithUserFields
     }
 
     // Simulate Filament's evaluate method
-    protected function evaluate($value)
+    protected function evaluate($value, array $parameters = [])
     {
-        return $value instanceof Closure ? $value() : $value;
+        if (! $value instanceof Closure) {
+            return $value;
+        }
+
+        $arguments = [];
+
+        foreach ((new ReflectionFunction($value))->getParameters() as $parameter) {
+            if (array_key_exists($parameter->getName(), $parameters)) {
+                $arguments[$parameter->getName()] = $parameters[$parameter->getName()];
+            }
+        }
+
+        return $value(...$arguments);
     }
 }
 
@@ -91,4 +103,14 @@ it('returns empty string if user model field is missing', function () {
 
     $field->description(null);
     expect($field->getDescription())->toBe('');
+});
+
+it('resolves custom heading and description closures for a specific user', function () {
+    $user = (object) ['name' => 'Ada', 'email' => 'ada@example.com'];
+    $field = (new DummyUserFieldWithUserFields)
+        ->heading(fn ($state) => "User {$state->name}")
+        ->description(fn ($user) => "Email {$user->email}");
+
+    expect($field->getHeadingFor($user))->toBe('User Ada')
+        ->and($field->getDescriptionFor($user))->toBe('Email ada@example.com');
 });

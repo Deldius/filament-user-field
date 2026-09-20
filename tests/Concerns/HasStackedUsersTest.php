@@ -97,6 +97,7 @@ it('calculates visible users and the remaining count', function () {
     $component = (new DummyStackedUsersComponent(collect(range(1, 8))))->stackedLimit(5);
 
     expect($component->getVisibleStackedUsers()->all())->toBe([1, 2, 3, 4, 5])
+        ->and($component->getHiddenStackedUsers()->all())->toBe([6, 7, 8])
         ->and($component->getStackedRemainingCount())->toBe(3);
 });
 

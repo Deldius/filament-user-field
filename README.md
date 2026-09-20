@@ -222,9 +222,11 @@ UserColumn::make('reviewers')
 ```
 
 `stackedLimit()` controls the number of visible avatars and defaults to the
-global value of `5`. `stackedModal()` is opt-in, is disabled globally by
+global value of `3. `stackedModal()` is opt-in, is enabled globally by
 default, and opens a read-only modal that lists every resolved user as a full
-`UserEntry` card.
+`UserEntry` card. When the modal is disabled, hovering a visible avatar shows
+that user's heading and description. Hovering the `+N` badge shows the
+headings of the hidden users represented by the badge.
 
 Prefer eager-loaded model relationships to avoid per-ID queries. When scalar
 IDs are used, successful lookups retain the five-second cache behavior, but

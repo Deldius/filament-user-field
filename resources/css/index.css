@@ -30,6 +30,9 @@
 .fi-user-stack-remaining.fi-size-md { @apply size-11 min-w-11 text-sm; }
 .fi-user-stack-remaining.fi-size-lg { @apply size-12 min-w-12 text-sm; }
 .fi-user-stack-remaining.fi-size-xl { @apply size-14 min-w-14 text-base; }
+.fi-user-stack-tooltip-heading { @apply font-medium; }
+.fi-user-stack-tooltip-description { @apply text-xs opacity-75; }
+.fi-user-stack-tooltip-list { @apply space-y-1 text-start; }
 
 .fi-user-entry-active-state {
   @apply absolute -top-1.5 -right-2 bg-white dark:bg-gray-800 rounded-full;
@@ -162,5 +165,5 @@
 }
 
 .fi-user-stack {
-  @apply pl-2;
+  @apply pl-0;
 }

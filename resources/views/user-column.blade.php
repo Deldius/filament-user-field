@@ -7,13 +7,28 @@ $isStackedModalAction = $stackedModalAction && ($getAction() === $stackedModalAc
 
 <div class="fi-user-entry fi-size-{{ $size }}">
   @if ($isStackedState() && $state->isNotEmpty())
+    @php
+      $stackedModalEnabled = $hasStackedModal();
+    @endphp
     <div class="fi-user-stack fi-size-{{ $size }}" aria-label="Users">
       @if ($isStackedModalAction)
         <span class="fi-sr-only">Open user list for {{ $getLabel() ?: 'Users' }}</span>
       @endif
 
       @foreach ($getVisibleStackedUsers() as $user)
-        <div class="fi-user-stack-item">
+        @php
+          $userTooltip = $stackedModalEnabled ? null : view('filament-user-field::components.user-stack-tooltip', [
+              'heading' => $getHeadingFor($user),
+              'description' => $getDescriptionFor($user),
+          ])->render();
+        @endphp
+
+        <div
+          class="fi-user-stack-item"
+          @if ($userTooltip)
+            x-tooltip.html="{ content: @js($userTooltip), theme: $store.theme }"
+          @endif
+        >
           @include('filament-user-field::components.user-avatar', [
               'avatarUrl' => $getAvatarUrlFor($user),
               'size' => $size,
@@ -23,7 +38,18 @@ $isStackedModalAction = $stackedModalAction && ($getAction() === $stackedModalAc
       @endforeach
 
       @if ($remaining = $getStackedRemainingCount())
-        <span class="fi-user-stack-remaining fi-size-{{ $size }}">+{{ $remaining }}</span>
+        @php
+          $remainingTooltip = $stackedModalEnabled ? null : view('filament-user-field::components.user-stack-tooltip', [
+              'headings' => $getHiddenStackedUsers()->map(fn ($user) => $getHeadingFor($user)),
+          ])->render();
+        @endphp
+
+        <span
+          class="fi-user-stack-remaining fi-size-{{ $size }}"
+          @if ($remainingTooltip)
+            x-tooltip.html="{ content: @js($remainingTooltip), theme: $store.theme }"
+          @endif
+        >+{{ $remaining }}</span>
       @endif
     </div>
   @elseif ($state && ! $isStackedState())

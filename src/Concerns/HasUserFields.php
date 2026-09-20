@@ -27,24 +27,38 @@ trait HasUserFields
 
     public function getHeading(): string
     {
+        return $this->getHeadingFor($this->getState());
+    }
+
+    public function getHeadingFor(mixed $user): string
+    {
         if ($this->heading) {
-            return $this->evaluate($this->heading);
+            return $this->evaluate($this->heading, [
+                'state' => $user,
+                'user' => $user,
+            ]);
         }
 
         $headingField = config('user-field.user_model.fields.heading', 'name');
-        $user = $this->getState();
 
         return $user->{$headingField} ?? '';
     }
 
     public function getDescription(): string
     {
+        return $this->getDescriptionFor($this->getState());
+    }
+
+    public function getDescriptionFor(mixed $user): string
+    {
         if ($this->description) {
-            return $this->evaluate($this->description);
+            return $this->evaluate($this->description, [
+                'state' => $user,
+                'user' => $user,
+            ]);
         }
 
         $descriptionField = config('user-field.user_model.fields.description', 'email');
-        $user = $this->getState();
 
         return $user->{$descriptionField} ?? '';
     }

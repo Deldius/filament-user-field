@@ -7,6 +7,9 @@ use Deldius\UserField\UserEntry;
 use Filament\Actions\Action;
 use Illuminate\Support\Collection;
 
+/**
+ * @mixin HasState
+ */
 trait HasStackedUsers
 {
     protected int | Closure | null $stackedLimit = null;
@@ -52,9 +55,14 @@ trait HasStackedUsers
         return $this->getStackedUsers()->take($this->getStackedLimit())->values();
     }
 
+    public function getHiddenStackedUsers(): Collection
+    {
+        return $this->getStackedUsers()->skip($this->getVisibleStackedUsers()->count())->values();
+    }
+
     public function getStackedRemainingCount(): int
     {
-        return max(0, $this->getStackedUsers()->count() - $this->getVisibleStackedUsers()->count());
+        return $this->getHiddenStackedUsers()->count();
     }
 
     public function stackedModal(bool | Closure $condition = true): static
@@ -69,7 +77,7 @@ trait HasStackedUsers
     public function hasStackedModal(): bool
     {
         return (bool) ($this->evaluate($this->stackedModal)
-            ?? config('user-field.stacked.modal', false));
+            ?? config('user-field.stacked.modal', true));
     }
 
     public function stackedModalWidth(string | Closure | null $width): static
@@ -116,6 +124,7 @@ trait HasStackedUsers
             ->modalHeading(fn (): string => (string) ($this->getLabel() ?: 'Users'))
             ->modalSubmitAction(false)
             ->modalWidth(fn (): ?string => $this->getStackedModalWidth())
+            ->extraModalWindowAttributes(['gap' => 0])
             ->schema(fn (Action $action): array => $this->getStackedModalEntriesForAction($action));
     }
 
