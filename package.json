@@ -3,7 +3,7 @@
     "type": "module",
     "dependencies": {
         "@tailwindcss/cli": "^4.1.11",
-        "tailwindcss": "^4.1.11"
+        "tailwindcss": "^4.3.5"
     },
     "scripts": {
         "build": "npx @tailwindcss/cli -i ./resources/css/index.css -o ./resources/dist/filament-user-field.css --minify"
